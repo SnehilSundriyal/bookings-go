@@ -1,0 +1,17 @@
+.my-footer {
+    color: white;
+    padding: 1em;
+    height: 5em;
+    background-color: #163b65;
+    margin-top: 1.5em;
+    font-size: 80%
+}
+.room-image {
+    max-width: 50%;
+}
+.notie-container {
+    box-shadow: none;
+}
+.datepicker {
+    z-index: 10000;
+}
