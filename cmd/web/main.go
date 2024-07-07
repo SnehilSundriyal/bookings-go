@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
+	"github.com/SnehilSundriyal/bookings-go/internal/config"
+	"github.com/SnehilSundriyal/bookings-go/internal/handlers"
+	"github.com/SnehilSundriyal/bookings-go/internal/render"
+	"github.com/alexedwards/scs/v2"
 	"log"
 	"net/http"
 	"time"
-	"github.com/SnehilSundriyal/bookings-go/pkg/config"
-	"github.com/SnehilSundriyal/bookings-go/pkg/handlers"
-	"github.com/SnehilSundriyal/bookings-go/pkg/render"
-	"github.com/alexedwards/scs/v2"
 )
 
 const portNumber = ":8080"
+
 var app config.AppConfig
 var session *scs.SessionManager
 
@@ -20,7 +21,7 @@ func main() {
 	app.InProduction = false
 
 	session = scs.New()
-	session.Lifetime = 24*time.Hour
+	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
 	session.Cookie.SameSite = http.SameSiteLaxMode
 	session.Cookie.Secure = app.InProduction
@@ -42,8 +43,8 @@ func main() {
 
 	fmt.Printf("Listening on port %s", portNumber)
 
-	srv := &http.Server {
-		Addr: portNumber, 
+	srv := &http.Server{
+		Addr:    portNumber,
 		Handler: routes(&app),
 	}
 

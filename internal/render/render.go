@@ -2,13 +2,14 @@ package render
 
 import (
 	"bytes"
+	"github.com/SnehilSundriyal/bookings-go/internal/config"
+	"github.com/SnehilSundriyal/bookings-go/internal/models"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 
-	"github.com/SnehilSundriyal/bookings-go/pkg/config"
-	"github.com/SnehilSundriyal/bookings-go/pkg/models"
+	"github.com/justinas/nosurf"
 )
 
 var app *config.AppConfig
@@ -18,12 +19,13 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData{
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
 // RenderTemplate renders a template
-func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
 	// get the template cache from app config
 	var tc map[string]*template.Template
 	if app.UseCache {
@@ -40,7 +42,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 
 	buf := new(bytes.Buffer)
 
-	td = AddDefaultData(td)
+	td = AddDefaultData(td, r)
 
 	err := t.Execute(buf, td)
 	if err != nil {
@@ -89,4 +91,3 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 
 	return myCache, nil
 }
-
