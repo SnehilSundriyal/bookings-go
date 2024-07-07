@@ -1,0 +1,25 @@
+mode: set
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:22.40,24.2 1 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:26.84,33.2 5 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:36.105,39.18 2 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:39.18,41.3 1 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:41.8,43.3 1 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:46.2,47.9 2 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:47.9,49.3 1 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:51.2,56.16 4 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:56.16,59.3 2 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:62.2,63.16 2 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:63.16,66.3 2 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:68.2,68.12 1 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:72.67,77.16 3 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:77.16,79.3 1 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:82.2,82.29 1 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:82.29,85.17 3 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:85.17,88.4 2 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:90.3,91.17 2 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:91.17,93.4 1 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:95.3,95.23 1 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:95.23,97.18 2 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:97.18,99.5 1 0
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:102.3,102.21 1 1
+github.com/SnehilSundriyal/bookings-go/internal/render/render.go:105.2,105.21 1 1

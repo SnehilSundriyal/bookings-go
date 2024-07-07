@@ -1,0 +1,11 @@
+mode: set
+github.com/SnehilSundriyal/bookings-go/cmd/web/main.go:22.13,24.16 2 0
+github.com/SnehilSundriyal/bookings-go/cmd/web/main.go:24.16,26.3 1 0
+github.com/SnehilSundriyal/bookings-go/cmd/web/main.go:28.2,36.16 4 0
+github.com/SnehilSundriyal/bookings-go/cmd/web/main.go:36.16,38.3 1 0
+github.com/SnehilSundriyal/bookings-go/cmd/web/main.go:41.18,57.16 10 1
+github.com/SnehilSundriyal/bookings-go/cmd/web/main.go:57.16,60.3 2 0
+github.com/SnehilSundriyal/bookings-go/cmd/web/main.go:62.2,69.12 6 1
+github.com/SnehilSundriyal/bookings-go/cmd/web/middleware.go:9.45,19.2 3 1
+github.com/SnehilSundriyal/bookings-go/cmd/web/middleware.go:22.50,24.2 1 1
+github.com/SnehilSundriyal/bookings-go/cmd/web/routes.go:11.49,35.2 18 1
