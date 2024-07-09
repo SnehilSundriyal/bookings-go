@@ -57,7 +57,7 @@ func TestHandlers(t *testing.T) {
 			}
 
 			if resp.StatusCode != e.expectedStatusCode {
-				t.Errorf("for %s expected status %d, got %d", e.name, e.expectedStatusCode, resp.StatusCode)
+				t.Errorf("for %s expected status %db, got %db", e.name, e.expectedStatusCode, resp.StatusCode)
 			}
 		} else {
 			values := url.Values{}
@@ -72,7 +72,7 @@ func TestHandlers(t *testing.T) {
 			}
 
 			if resp.StatusCode != e.expectedStatusCode {
-				t.Errorf("for %s expected status %d, got %d", e.name, e.expectedStatusCode, resp.StatusCode)
+				t.Errorf("for %s expected status %db, got %db", e.name, e.expectedStatusCode, resp.StatusCode)
 			}
 		}
 	}

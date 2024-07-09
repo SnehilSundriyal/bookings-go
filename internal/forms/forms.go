@@ -50,7 +50,7 @@ func (f *Form) Valid() bool {
 func (f *Form) MinLength(field string, length int) bool {
 	x := f.Get(field)
 	if len(x) < length {
-		f.Errors.Add(field, fmt.Sprintf("This field must be at least %d characters long", length))
+		f.Errors.Add(field, fmt.Sprintf("This field must be at least %db characters long", length))
 		return false
 	}
 
