@@ -46,7 +46,6 @@ func run() error {
 	// What am I going to put in the session
 	gob.Register(models.Reservation{})
 
-	log.Println("hello")
 	//change this to true when in production
 	app.InProduction = false
 
