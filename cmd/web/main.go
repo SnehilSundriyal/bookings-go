@@ -4,6 +4,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"github.com/SnehilSundriyal/bookings-go/internal/config"
+	"github.com/SnehilSundriyal/bookings-go/internal/driver"
 	"github.com/SnehilSundriyal/bookings-go/internal/handlers"
 	"github.com/SnehilSundriyal/bookings-go/internal/helpers"
 	"github.com/SnehilSundriyal/bookings-go/internal/models"
@@ -24,10 +25,11 @@ var errorLog *log.Logger
 
 // main is the main function
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	fmt.Println("Listening on port ", portNumber)
 
@@ -42,7 +44,7 @@ func main() {
 	}
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	// What am I going to put in the session
 	gob.Register(models.Reservation{})
 
@@ -63,10 +65,17 @@ func run() error {
 
 	app.Session = session
 
+	// connect to database
+	log.Println("Connecting to database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=postgres user=postgres password=hello")
+	if err != nil {
+		log.Fatal("Cannot connect to database! Dying...")
+	}
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
@@ -78,5 +87,5 @@ func run() error {
 	helpers.New(&app)
 
 	render.NewTemplates(&app)
-	return nil
+	return db, nil
 }
