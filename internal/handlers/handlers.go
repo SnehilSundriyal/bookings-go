@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/SnehilSundriyal/bookings-go/internal/config"
+	"github.com/SnehilSundriyal/bookings-go/internal/driver"
 	"github.com/SnehilSundriyal/bookings-go/internal/forms"
 	"github.com/SnehilSundriyal/bookings-go/internal/helpers"
 	"github.com/SnehilSundriyal/bookings-go/internal/models"
 	"github.com/SnehilSundriyal/bookings-go/internal/render"
+	"github.com/SnehilSundriyal/bookings-go/internal/repository"
+	"github.com/SnehilSundriyal/bookings-go/internal/repository/dbrepo"
 	"log"
 	"net/http"
 )
@@ -17,15 +20,17 @@ var minLength int
 // Repository is the repository type
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 // Repo is the repository used by the handlers
 var Repo *Repository
 
 // NewRepo creates a new repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(a, db.SQL),
 	}
 }
 
