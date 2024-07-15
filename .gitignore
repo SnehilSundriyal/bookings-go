@@ -4,3 +4,4 @@ bookings
 .DS_Store
 *.code-workspace
 database.yml
+run.sh
