@@ -31,7 +31,7 @@ func main() {
 	}
 	defer db.SQL.Close()
 
-	fmt.Println("Listening on port ", portNumber)
+	fmt.Println(fmt.Sprintf("Staring application on port %s", portNumber))
 
 	srv := &http.Server{
 		Addr:    portNumber,
@@ -40,15 +40,18 @@ func main() {
 
 	err = srv.ListenAndServe()
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 }
 
 func run() (*driver.DB, error) {
-	// What am I going to put in the session
+	// what am I going to put in the session
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.RoomRestriction{})
 
-	//change this to true when in production
+	// change this to true when in production
 	app.InProduction = false
 
 	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
@@ -57,6 +60,7 @@ func run() (*driver.DB, error) {
 	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 	app.ErrorLog = errorLog
 
+	// set up the session
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
@@ -72,6 +76,8 @@ func run() (*driver.DB, error) {
 		log.Fatal("Cannot connect to database! Dying...")
 	}
 
+	log.Println("Connected to database!")
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache")
@@ -81,11 +87,10 @@ func run() (*driver.DB, error) {
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
-	handlers.New(repo)
-	render.NewTemplates(&app)
-	helpers.New(&app)
+	repo := handlers.NewRepo(&app, db)
+	handlers.NewHandlers(repo)
+	render.NewRenderer(&app)
+	helpers.NewHelpers(&app)
 
-	render.NewTemplates(&app)
 	return db, nil
 }

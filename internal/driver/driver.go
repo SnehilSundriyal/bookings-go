@@ -2,10 +2,11 @@ package driver
 
 import (
 	"database/sql"
+	"time"
+
 	_ "github.com/jackc/pgconn"
 	_ "github.com/jackc/pgx/v4"
 	_ "github.com/jackc/pgx/v4/stdlib"
-	"time"
 )
 
 // DB holds the database connection pool
@@ -15,20 +16,20 @@ type DB struct {
 
 var dbConn = &DB{}
 
-const maxOpenConns = 10
-const maxIdleConns = 5
-const maxDBLifetime = 5 * time.Minute
+const maxOpenDbConn = 10
+const maxIdleDbConn = 5
+const maxDbLifetime = 5 * time.Minute
 
-// ConnectSQL creates database pool for postgres
+// ConnectSQL creates database pool for Postgres
 func ConnectSQL(dsn string) (*DB, error) {
 	d, err := NewDatabase(dsn)
 	if err != nil {
 		panic(err)
 	}
 
-	d.SetMaxOpenConns(maxOpenConns)
-	d.SetMaxIdleConns(maxIdleConns)
-	d.SetConnMaxLifetime(maxDBLifetime)
+	d.SetMaxOpenConns(maxOpenDbConn)
+	d.SetMaxIdleConns(maxIdleDbConn)
+	d.SetConnMaxLifetime(maxDbLifetime)
 
 	dbConn.SQL = d
 
@@ -36,7 +37,6 @@ func ConnectSQL(dsn string) (*DB, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return dbConn, nil
 }
 
@@ -61,5 +61,4 @@ func NewDatabase(dsn string) (*sql.DB, error) {
 	}
 
 	return db, nil
-
 }

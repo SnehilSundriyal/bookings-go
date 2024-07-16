@@ -7,10 +7,15 @@ import (
 	"strings"
 )
 
-// Form creates a custom form struct, embeds a url.Values object
+// Form creates a custom form struct and embeds a url.Values object
 type Form struct {
 	url.Values
 	Errors errors
+}
+
+// Valid returns true if there are no errors, otherwise false
+func (f *Form) Valid() bool {
+	return len(f.Errors) == 0
 }
 
 // New initializes a form struct
@@ -19,16 +24,6 @@ func New(data url.Values) *Form {
 		data,
 		errors(map[string][]string{}),
 	}
-}
-
-// Has checks if form field is in post and not empty
-func (f *Form) Has(field string) bool {
-	x := f.Get(field)
-	if x == "" {
-		return false
-	}
-
-	return true
 }
 
 // Required checks for required fields
@@ -41,25 +36,28 @@ func (f *Form) Required(fields ...string) {
 	}
 }
 
-// Valid returns true if there are no errors, otherwise false
-func (f *Form) Valid() bool {
-	return len(f.Errors) == 0
-}
-
-// MinLength checks for string minimum length
-func (f *Form) MinLength(field string, length int) bool {
+// Has checks if form field is in post and not empty
+func (f *Form) Has(field string) bool {
 	x := f.Get(field)
-	if len(x) < length {
-		f.Errors.Add(field, fmt.Sprintf("This field must be at least %db characters long", length))
+	if x == "" {
 		return false
 	}
-
 	return true
 }
 
-// IsEmail checks for valid email address
+// MinLength check for minimum length
+func (f *Form) MinLength(field string, length int) bool {
+	x := f.Get(field)
+	if len(x) < length {
+		f.Errors.Add(field, fmt.Sprintf("This field must be at least %d characters long", length))
+		return false
+	}
+	return true
+}
+
+// IsEmail checks for a valid email address
 func (f *Form) IsEmail(field string) {
 	if !govalidator.IsEmail(f.Get(field)) {
-		f.Errors.Add(field, "This field must be a valid email address")
+		f.Errors.Add(field, "Invalid email address")
 	}
 }
