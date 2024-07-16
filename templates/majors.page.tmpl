@@ -2,50 +2,76 @@
 
 {{define "content"}}
     <div class="container">
+
+
         <div class="row">
             <div class="col">
-                <img src="/static/images/marjors-suite.png" class="img-fluid img-thumbnail rounded mx-auto d-block room-image">  
+                <img src="/static/images/marjors-suite.png"
+                     class="img-fluid img-thumbnail mx-auto d-block room-image" alt="room image">
             </div>
         </div>
+
+
         <div class="row">
             <div class="col">
                 <h1 class="text-center mt-4">Major's Suite</h1>
-                <p class="text-center">Welcome to Fort Smythe Bed and Breakfast, a tranquil coastal retreat nestled on the pristine shores of the Atlantic Ocean. Our charming B&B offers the perfect blend of comfort, elegance, and natural beauty, creating an unforgettable experience for our guests.</p>
-            </div>   
-        </div>
-
-        <div class="row">
-            <div class="col text-center">
-                <a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
+                <p>
+                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+                    to remember.
+                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+                    to remember.
+                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+                    to remember.
+                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+                    to remember.
+                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+                    to remember.
+                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+                    to remember.
+                </p>
             </div>
         </div>
+
+
+        <div class="row">
+
+            <div class="col text-center">
+
+                <a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
+
+            </div>
+        </div>
+
+
+
+
     </div>
 {{end}}
 
 {{define "js"}}
     <script>
-        document.getElementById("check-availability-button").addEventListener("click", function() {
+        document.getElementById("check-availability-button").addEventListener("click", function () {
             let html = `
-            <form id="check-availability-form" action="" method="post" novalidate class="needs-validation"
-                <div class="form-row">
-                    <div class="col">
-                        <div class="form-row" id="reservation-dates-modal">
-                            <div class="col">
-                                <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
-                            </div>
-
-                            <div class="col">
-                                <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
-                            </div>
+        <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-row" id="reservation-dates-modal">
+                        <div class="col">
+                            <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
                         </div>
+                        <div class="col">
+                            <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+                        </div>
+
                     </div>
                 </div>
-            </form>
-            `
+            </div>
+        </form>
+        `;
             attention.custom({
-                msg: html, 
-                title: "Choose Your Dates"
-            });                
+                title: 'Choose your dates',
+                msg: html,
+            });
         })
-    </script> 
+    </script>
 {{end}}
