@@ -9,6 +9,7 @@ require (
 	github.com/jackc/pgconn v1.8.1
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/justinas/nosurf v1.1.1
+	github.com/pkg/errors v0.9.1
 )
 
 require (
