@@ -55,6 +55,53 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// ShowLogin displays the user login page
+func (m *Repository) ShowLogin(w http.ResponseWriter, r *http.Request) {
+	err := render.Template(w, r, "login.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+	})
+	if err != nil {
+		return
+	}
+}
+
+func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
+	_ = m.App.Session.RenewToken(r.Context())
+
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+	}
+
+	email := r.Form.Get("email")
+	password := r.Form.Get("password")
+
+	form := forms.New(r.PostForm)
+	form.Required("email", "password")
+	form.IsEmail("email")
+	if !form.Valid() {
+		err := render.Template(w, r, "login.page.tmpl", &models.TemplateData{
+			Form: form,
+		})
+		if err != nil {
+			return
+		}
+		return
+	}
+
+	id, _, err := m.DB.Authenticate(email, password)
+	if err != nil {
+		log.Println(err)
+		m.App.Session.Put(r.Context(), "error", "Invalid login credentials")
+		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+		return
+	}
+
+	m.App.Session.Put(r.Context(), "user_id", id)
+	m.App.Session.Put(r.Context(), "flash", "Logged in successfully!")
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
 // Availability renders the search availability page
 func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
 	err := render.Template(w, r, "search-availability.page.tmpl", &models.TemplateData{})
@@ -461,6 +508,18 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
+// Logout logs a user out
+func (m *Repository) Logout(w http.ResponseWriter, r *http.Request) {
+	err := m.App.Session.Destroy(r.Context())
+	if err != nil {
+		return
+	}
+
+	_ = m.App.Session.RenewToken(r.Context())
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
 // Generals renders the room page
 func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
 	err := render.Template(w, r, "generals.page.tmpl", &models.TemplateData{})
@@ -489,6 +548,34 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	// send the data to the template
 	err := render.Template(w, r, "about.page.tmpl", &models.TemplateData{})
+	if err != nil {
+		return
+	}
+}
+
+func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
+	err := render.Template(w, r, "admin-dashboard.page.tmpl", &models.TemplateData{})
+	if err != nil {
+		return
+	}
+}
+
+func (m *Repository) AdminNewReservations(w http.ResponseWriter, r *http.Request) {
+	err := render.Template(w, r, "admin-new-reservations.page.tmpl", &models.TemplateData{})
+	if err != nil {
+		return
+	}
+}
+
+func (m *Repository) AdminAllReservations(w http.ResponseWriter, r *http.Request) {
+	err := render.Template(w, r, "admin-all-reservations.page.tmpl", &models.TemplateData{})
+	if err != nil {
+		return
+	}
+}
+
+func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Request) {
+	err := render.Template(w, r, "admin-reservations-calendar.page.tmpl", &models.TemplateData{})
 	if err != nil {
 		return
 	}
