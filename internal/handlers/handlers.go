@@ -6,6 +6,7 @@ import (
 	"github.com/SnehilSundriyal/bookings-go/internal/config"
 	"github.com/SnehilSundriyal/bookings-go/internal/driver"
 	"github.com/SnehilSundriyal/bookings-go/internal/forms"
+	"github.com/SnehilSundriyal/bookings-go/internal/helpers"
 	"github.com/SnehilSundriyal/bookings-go/internal/models"
 	"github.com/SnehilSundriyal/bookings-go/internal/render"
 	"github.com/SnehilSundriyal/bookings-go/internal/repository"
@@ -560,22 +561,64 @@ func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// AdminNewReservations shows all new reservations in admin tool
 func (m *Repository) AdminNewReservations(w http.ResponseWriter, r *http.Request) {
-	err := render.Template(w, r, "admin-new-reservations.page.tmpl", &models.TemplateData{})
+	reservations, err := m.DB.AllNewReservations()
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["reservations"] = reservations
+
+	err = render.Template(w, r, "admin-new-reservations.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 	if err != nil {
 		return
 	}
 }
 
+// AdminAllReservations shows all reservations in admin tool
 func (m *Repository) AdminAllReservations(w http.ResponseWriter, r *http.Request) {
-	err := render.Template(w, r, "admin-all-reservations.page.tmpl", &models.TemplateData{})
+	reservations, err := m.DB.AllReservations()
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["reservations"] = reservations
+
+	err = render.Template(w, r, "admin-all-reservations.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 	if err != nil {
 		return
 	}
 }
 
+// AdminReservationsCalendar displays the reservation calendar
 func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Request) {
 	err := render.Template(w, r, "admin-reservations-calendar.page.tmpl", &models.TemplateData{})
+	if err != nil {
+		return
+	}
+}
+
+// AdminShowReservation shows the reservation in admin tool
+func (m *Repository) AdminShowReservation(w http.ResponseWriter, r *http.Request) {
+	exploded := strings.Split(r.RequestURI, "/")
+	id, err := strconv.Atoi(exploded[4])
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	log.Println(id)
+
+	err = render.Template(w, r, "admin-reservations-show.page.tmpl", &models.TemplateData{})
 	if err != nil {
 		return
 	}
